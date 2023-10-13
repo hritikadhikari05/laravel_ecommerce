@@ -3,12 +3,10 @@
     <span class="text-3xl">Trending Products</span>
 
     <div class="grid grid-cols-4 gap-6 mt-4">
-        @include('components/productCard')
-        @include('components/productCard')
-        @include('components/productCard')
-        @include('components/productCard')
-        @include('components/productCard')
-        @include('components/productCard')
+        @foreach($products as $product)
+        @include('components/productCard', ['product' => $product])
+        @endforeach
+
 
     </div>
 </div>

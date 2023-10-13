@@ -17,7 +17,8 @@ class ProductController extends Controller
     public function getHomepage(Request $request)
     {
         $userId = $request->session()->get('userId');
-        return view("homepage", ['userId' => $userId]);
+        $products = DB::table('products')->get();
+        return view("homepage", ['userId' => $userId, 'products' => $products]);
     }
 
     //Get dashboard
