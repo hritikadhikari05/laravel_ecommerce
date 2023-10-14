@@ -45,3 +45,4 @@ Route::post('/add-product', [ProductController::class, 'addNewProduct'])->name('
 Route::get('/manage-product', [ProductController::class, 'manageProduct'])->name('manage-product');
 Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
 Route::post('/edit-product/{id}', [ProductController::class, 'updateProduct'])->name('edit-product');
+Route::delete('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('delete-product');

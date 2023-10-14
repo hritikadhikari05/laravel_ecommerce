@@ -57,7 +57,11 @@
                     </td>
                     <td class="px-6 py-4">
                         <a href="/edit-product/{{$product->productID}}" class="font-medium text-blue-600 dark:text-red-500 hover:underline">Edit</a>
-                        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                        <form method="post" action="{{route('delete-product',['id'=>$product->productID])}}">
+                            @csrf
+                            @method('delete')
+                            <button class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

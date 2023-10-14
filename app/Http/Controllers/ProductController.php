@@ -205,4 +205,18 @@ class ProductController extends Controller
 
         return redirect()->route('manage-product');
     }
+
+    //Delete Product
+    public function deleteProduct(Request $request, $id)
+    {
+        //TODO: Check if user is the creator of the product
+        // $userId = $request->session()->get('userId');
+        $isAdmin = $request->session()->get('isAdmin');
+        if ($isAdmin) {
+            DB::table('products')->where('productID', $id)->delete();
+            return redirect()->route('manage-product');
+        } else {
+            return redirect()->route('homepage');
+        }
+    }
 }
