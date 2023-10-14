@@ -36,6 +36,7 @@ Route::post('/signup', [ProductController::class, 'signUp'])->name('signup');
 
 
 Route::get('/', [ProductController::class, 'getHomepage'])->name('homepage');
+Route::get('/product/{id}', [ProductController::class, 'getProduct'])->name('product');
 
 
 //Admin

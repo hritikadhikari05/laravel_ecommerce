@@ -10,17 +10,20 @@ use function PHPUnit\Framework\isNull;
 
 class ProductController extends Controller
 {
-    //
-    public function index()
+    //Get Product
+    public function getProduct(Request $request, $id)
     {
-        return view('product');
+        $userId = $request->session()->get('userId');
+        $product = DB::table('products')->where('productID', $id)->first();
+        return view("product", ['userId' => $userId, 'product' => $product, 'title' => $product->productTitle]);
     }
 
+    //Render Homepage
     public function getHomepage(Request $request)
     {
         $userId = $request->session()->get('userId');
         $products = DB::table('products')->get();
-        return view("homepage", ['userId' => $userId, 'products' => $products]);
+        return view("homepage", ['userId' => $userId, 'products' => $products, 'title' => 'Homepage']);
     }
 
     //Get dashboard
@@ -28,8 +31,10 @@ class ProductController extends Controller
     {
         $userId = $request->session()->get('userId');
         $isAdmin = $request->session()->get('isAdmin');
+        $users = DB::table('users')->where('id', $userId);
+        $products = DB::table('products');
         if ($isAdmin) {
-            return view("dashboard", ['userId' => $userId]);
+            return view("dashboard", ['userId' => $userId, 'users' => $users, 'products' => $products, 'title' => 'Dashboard']);
         } else {
             return redirect()->route('homepage');
         }
@@ -42,7 +47,7 @@ class ProductController extends Controller
         $isAdmin = $request->session()->get('isAdmin');
         if ($isAdmin) {
             $products = DB::table('products')->get();
-            return view("manageProducts", ['userId' => $userId, 'products' => $products]);
+            return view("manageProducts", ['userId' => $userId, 'products' => $products, 'title' => 'Manage Products']);
         } else {
             return redirect()->route('homepage');
         }
@@ -137,7 +142,7 @@ class ProductController extends Controller
         $userId = $request->session()->get('userId');
         $isAdmin = $request->session()->get('isAdmin');
         if ($isAdmin) {
-            return view("addProduct", ['userId' => $userId]);
+            return view("addProduct", ['userId' => $userId, 'title' => 'Add Product']);
         } else {
             return redirect()->route('homepage');
         }
@@ -172,7 +177,7 @@ class ProductController extends Controller
         $isAdmin = $request->session()->get('isAdmin');
         if ($isAdmin) {
             $product = DB::table('products')->where('productID', $id)->first();
-            return view("editProduct", ['userId' => $userId, 'product' => $product]);
+            return view("editProduct", ['userId' => $userId, 'product' => $product, 'title' => 'Edit Product']);
         } else {
             return redirect()->route('homepage');
         }
