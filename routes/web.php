@@ -43,3 +43,5 @@ Route::get('/dashboard', [ProductController::class, 'getDasbboard'])->name('dash
 Route::get('/add-product', [ProductController::class, 'addProduct'])->name('add-product');
 Route::post('/add-product', [ProductController::class, 'addNewProduct'])->name('add-product');
 Route::get('/manage-product', [ProductController::class, 'manageProduct'])->name('manage-product');
+Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('edit-product');
+Route::post('/edit-product/{id}', [ProductController::class, 'updateProduct'])->name('edit-product');

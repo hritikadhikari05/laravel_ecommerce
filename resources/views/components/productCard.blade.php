@@ -5,7 +5,7 @@
     <!-- https://flowbite.com/docs/images/products/apple-watch.png   -->
     <div class="px-5 pb-5">
         <a href="#">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{$product->productTitle}}</h5>
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{substr($product->productTitle,0,50)}}</h5>
         </a>
         <div class="flex items-center mt-2.5 mb-5">
             <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -25,9 +25,14 @@
             </svg>
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
         </div>
-        <div class="flex items-center justify-between">
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">${{$product->price}}</span>
-            <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+        <div class="flex flex-col">
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">${{$product->discount}}</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400 line-through">${{$product->price}}</span>
+            <!-- Short Description  -->
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">{{substr($product->description,0,100)}}</p>
+            @if(session()->has('userId'))
+            <a href="#" class="text-white mt-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">More Details</a>
+            @endif
         </div>
     </div>
 </div>

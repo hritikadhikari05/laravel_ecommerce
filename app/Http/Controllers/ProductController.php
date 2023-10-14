@@ -6,6 +6,8 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isNull;
+
 class ProductController extends Controller
 {
     //
@@ -161,5 +163,46 @@ class ProductController extends Controller
         DB::table('products')->insert($data);
 
         return redirect()->route('dashboard');
+    }
+
+    //Edit Product
+    public function editProduct(Request $request, $id)
+    {
+        $userId = $request->session()->get('userId');
+        $isAdmin = $request->session()->get('isAdmin');
+        if ($isAdmin) {
+            $product = DB::table('products')->where('productID', $id)->first();
+            return view("editProduct", ['userId' => $userId, 'product' => $product]);
+        } else {
+            return redirect()->route('homepage');
+        }
+    }
+
+    //Update Product
+    public function updateProduct(Request $request, $id)
+    {
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $category = $request->input('category');
+        $price = $request->input('price');
+        $stockqty = $request->input('stockqty');
+        $manufacturer = $request->input('manufacturer');
+        $dsale = $request->input('dsale');
+        //Image
+        $uploadedFile = $request->file('image');
+
+        $product = DB::table('products')->where('productID', $id)->first();
+
+        $imagePath = $uploadedFile ?? $product->image_path;
+
+        if ($uploadedFile) {
+            $imagePath = $uploadedFile->store('images', 'public');
+        }
+        // $createdAt = date('Y-m-d H:i:s');
+
+        $data = array('productTitle' => $title, 'description' => $description, 'image_path' => $imagePath, 'category' => $category, 'price' => $price, 'stockQuantity' => $stockqty, 'manufacturer' => $manufacturer, 'discount' => $dsale);
+        DB::table('products')->where('productID', $id)->update($data);
+
+        return redirect()->route('manage-product');
     }
 }
